@@ -1,5 +1,7 @@
 import User from "../database/models/user.js";
 import bcrypt from "bcrypt"
+import Jwt from "jsonwebtoken"
+const {sign} = Jwt;
 
 const createUser  = async (req,res) =>{
    try {
@@ -70,17 +72,19 @@ const getUserDetails = async (req,res)=>{
         }
         const userByPassword = userByEmail.password;
 
-        if(!bcrypt.compare(password,userByPassword)){
+        if(!await bcrypt.compare(password,userByPassword)){
             return res.status(404).json({
                 status:404,
                 message:"User Password not correct!",
             }) 
         }
-
+        
+        const token = sign({id:userByEmail._id},process.env.JWT_SECRET)
+        console.log("token",token);
         return res.status(200).json({
             status:200,
             message:"Logged successfull!",
-            data:userByEmail
+            data:token
         }) 
 
     } catch (error) {
