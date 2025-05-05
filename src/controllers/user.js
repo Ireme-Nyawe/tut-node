@@ -9,6 +9,7 @@ const createUser  = async (req,res) =>{
     const userPassword = await bcrypt.hash(userData.password,10)
     userData = {...userData,password:userPassword}
     console.log(userData)
+    console.log(req.user.email);
     const user = await User.create(userData)
     return res.status(201).json({
         status:201,

@@ -13,8 +13,9 @@ const isUserAuthorized = async (req, res, next) => {
   if(!loggedUser){
     return res.status(404).json({ status: 404, message: "User not found!" });
   }
-
   console.log(loggedUser);
+
+req.user = loggedUser;
 next()
 
 };
