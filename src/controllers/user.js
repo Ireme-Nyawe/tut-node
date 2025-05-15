@@ -1,12 +1,13 @@
 import User from "../database/models/user.js";
 import bcrypt from "bcrypt"
 import Jwt from "jsonwebtoken"
+import { hasPassword } from "../helpers/authHelper.js";
 const {sign} = Jwt;
 
 const createUser  = async (req,res) =>{
    try {
     let userData = req.body
-    const userPassword = await bcrypt.hash(userData.password,10)
+    const userPassword = await hasPassword(userData.password);
     userData = {...userData,password:userPassword}
     console.log(userData)
     console.log(req.user.email);
