@@ -1,8 +1,7 @@
 import { hasPassword } from "../../helpers/authHelper.js";
-import dbConnection from "../config/connection.js";
 import User from "../models/user.js";
 
-const seedUsers = async () => {
+export const seedUsers = async () => {
   const users = [
     {
       names: "Mucyo John",
@@ -23,9 +22,7 @@ const seedUsers = async () => {
       role: "user",
     },
   ];
+  await User.deleteMany();
   await User.insertMany(users);
   console.log("seeders added well");
 };
-dbConnection().then(()=>{
-    seedUsers();
-})
